@@ -1,6 +1,6 @@
 Prerequisites
 Ensure you have the following installed:
-  Git
+  Git and 
   Docker
 
   
