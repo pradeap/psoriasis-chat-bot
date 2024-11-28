@@ -2,6 +2,8 @@ Prerequisites
 Ensure you have the following installed:
   Git
   Docker
+
+  
 Installation
   1. Clone the Repository
     Clone this repository to your local machine:
