@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+        .input-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .response-box, .error-box {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .response-box {
+            border: 1px solid #4CAF50;
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error-box {
+            border: 1px solid #f44336;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Psoriasis Q and A </h1>
+        <form id="user-form">
+            <input type="text" name="user_input" placeholder="Ask anything related to psoriasis" class="input-box" required />
+            <button type="submit">Submit</button>
+        </form>
+        <div id="response-box" class="response-box"></div>
+        <div id="error-box" class="error-box"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("user-form");
+        const responseBox = document.getElementById("response-box");
+        const errorBox = document.getElementById("error-box");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const userInput = formData.get("user_input");
+
+            // Clear any previous messages
+            responseBox.style.display = "none";
+            errorBox.style.display = "none";
+
+            try {
+                const response = await fetch("/response", {
+                    method: "POST",
+                    body: new URLSearchParams({ user_input: userInput }),
+                });
+
+                if (!response.ok) {
+                    // Handle HTTP errors
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || "Unknown error occurred");
+                }
+
+                const data = await response.json();
+                responseBox.textContent = data.response;
+                responseBox.style.display = "block";
+            } catch (error) {
+                // Display error messages
+                errorBox.textContent = error.message;
+                errorBox.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
