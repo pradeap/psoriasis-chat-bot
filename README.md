@@ -29,11 +29,19 @@ Usage
    http://localhost:8080
 
 Stopping the Container
+
   To stop the container:
+  
     docker stop psoriasis-chat-container
 Removing the Container
+
   To remove the stopped container:
+  
     docker rm psoriasis-chat-container
+    
 Removing the Image
+
   To delete the image:
+  
     docker rmi psoriasis-chat-bot
+    
